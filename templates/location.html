@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="tCity" class="city">WeatherTeamGO</title>
+</head>
+
+<body>
+    <header>
+        <h1>WeatherTeamGO!</h1>
+        <h2 id="date"></h2>
+        <h2 id="htc" class="city">It looks like you are in </h3>
+    </header>
+
+    <section>
+        <h2 id="tempHead" class="secHead">Temperatures: </h2>
+        <h3 id="temp">Temperature: </h3>
+        <h3 id="fl">Feels Like: </h3>
+        <h3 id="max">Maximum Temperature: </h3>
+        <h3 id="min">Minimum Temperature: </h3>
+    </section>
+    <hr>
+    <section>
+        <h2 id="hum" class="secHead">Humidity: </h2>
+    </section>
+    <hr>
+    <section>
+        <h2 id="windHead" class="secHead">Winds: </h2>
+        <h3 id="ws">Wind Speed: </h3>
+        <h3 id="wd">Wind Direction: </h3>
+    </section>
+    <hr>
+    <section>
+        <h2 id="st" class="secHead">Sky: </h2>
+    </section>
+
+    <footer>
+        <h2 id="githubL"><a href="https://github.com/samg11">Github</a></h2>
+        <h2><a href="/">Choose a different location</a></h2>
+        <h2><a href="/help">Customer Support</a></h2>
+        <h2><a href="/{{ place }}/{{ ou }}">{{ ou }}</a></h2>
+    </footer>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        text-decoration: none;
+        color: black;
+    }
+
+    header {
+        margin: 15px;
+    }
+
+    header > h1 {
+        margin-top: 30px;
+    }
+
+    header > h2 {
+        margin-top: 10px;
+    }
+
+    section {
+        margin-bottom: 20px;
+    }
+
+    section > h2 {
+        margin-top: 20px;
+        margin-left: 5%;
+    }
+
+    section > h3 {
+        margin-left: 8%;
+        float: none;
+    }
+
+    hr {
+        width: 30%;
+        border: black solid 1.5px;
+    }
+
+    footer {
+        padding: 20px;
+        width: 100%;
+        height: 5vh;
+        position: fixed;
+        bottom: 0;
+        background: gray;
+    }
+
+    footer > h2 > a {
+        position: relative;
+        border: black 2px solid;
+        border-radius: 20%;
+        transition: 0.5s;
+        text-transform: capitalize;
+        /*margin: -15px;*/
+        background-color: white;
+        float: left;
+        margin: 20px;
+        margin-top: 0;
+    }
+
+    
+    
+    footer > h2 > a:hover {
+        transition: 0.3s;
+        background-color: gray;
+    }
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var d = new Date();
+    switch (d.getDay()) {
+        case 0:
+            day = "Sunday";
+            break;
+        case 1:
+            day = "Monday";
+            break;
+        case 2:
+            day = "Tuesday";
+            break;
+        case 3:
+            day = "Wednesday";
+            break;
+        case 4:
+            day = "Thursday";
+            break;
+        case 5:
+            day = "Friday";
+            break;
+        case 6:
+            day = "Saturday";
+            break;
+        }
+
+    
+    var months = new Array();
+    months[0] = "January";
+    months[1] = "February";
+    months[2] = "March";
+    months[3] = "April";
+    months[4] = "May";
+    months[5] = "June";
+    months[6] = "July";
+    months[7] = "August";
+    months[8] = "September";
+    months[9] = "October";
+    months[10] = "November";
+    months[11] = "December";
+
+    var month = months[d.getMonth()];
+
+    var year = d.getFullYear();
+
+    var date = d.getDate();
+    console.log(day);
+    console.log(month);
+    console.log(date);
+    console.log(year);
+    console.log(day + ", " + month + " " + date + ", " + year);
+    document.getElementById("date").innerHTML = day + ", " + month + " " + date + ", " + year
+    navigator.geolocation.getCurrentPosition(function(position) {
+        let lat = position.coords.latitude;
+        let lon = position.coords.longitude;
+        var units = "{{ units }}"
+        console.log("latitude: " + lat)
+        console.log("longitude: " + lon)
+        console.log("units: " + units)
+        console.log("{{ api_key }}")
+    
+        // api
+        const api = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&units=" + units + "&appid={{ api_key }}"
+        console.log(api)
+        $.getJSON(api, function(data){
+        console.log(data)
+
+        // loaction
+        const city = data.name;
+        let country = data.sys.country;
+        
+        // temp
+        const temp = data.main.temp;
+        const fl = data.main.feels_like;
+        const hum = data.main.humidity;
+        const pressure = data.main.pressure;
+        const max = data.main.temp_max;
+        const min = data.main.temp_min;
+        
+        // wind
+        const wd = data.wind.deg;
+        const ws = data.wind.speed;
+        
+        // sky
+        const st = data.weather[0].description;
+        console.log(st)
+
+        if (units == "imperial") {
+            var tu = '° F'
+            var su = ' Miles Per Hour'
+        } else if (units == "metric") {
+            var tu = '° C'
+            var su = ' Meters Per Second'
+        } else {
+            console.log("UNIT IS UNDEFINED!!!!!!!")
+        }
+
+        $('.city').append(city + ', ' + country);
+        $('#temp').append(temp + tu);
+        $('#fl').append(fl + tu);
+        $('#hum').append(hum + '%');
+        $('#max').append(max + tu);
+        $('#min').append(min + tu);
+        $('#ws').append(ws + su)
+        $('#wd').append(wd + '°')
+        $("#st").append(st)
+
+        //title
+        document.getElementById("tCity").innerHTML = temp + tu + " in " + city + ', ' + country
+})
+        
+    })
+</script>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="tCity" class="city">WeatherTeamGO</title>
+</head>
+	<style type="text/css">
+		a {
+			position: relative;
+	        margin-top: 10px;
+	        border: black 2px solid;
+	        border-radius: 20%;
+	        transition: 0.5s;
+	        text-transform: capitalize;
+	        text-decoration: none;
+	        color: black;
+	        background-color: white;
+	        float: left;
+	        margin: 20px;
+	        background-color: white;
+	        padding: 10px;
+		}
+
+		a:hover {
+			transition: 0.5s;
+			background-color: gray;
+			font-weight: bold;
+			text-decoration: underline;
+		}
+
+	</style>
+<body>
+	<h2>Set Location</h2>
+	<form method="POST">
+	<input type="text" placeholder="latitude" name="lat">
+	<input type="text" placeholder="longitude" name="lon">
+	<input type="submit" value="Go">
+	</form>
+
+	<a href="/current_location/imperial"><h2>Weather for current location(Coming Soon!)</h2></a>
+
+	<a href="/phl/imperial"><h2>Weather for Philadelphia!</h2></a>
+
+	<a href="/ny/imperial"><h2>Weather for New York!</h2></a>
+
+	<a href="/boston/imperial"><h2>Weather for Boston!</h2></a>
+
+	<a href="/la/imperial"><h2>Weather for Los Angeles!</h2></a>
+
+	<a href="/sf/imperial"><h2>Weather for San Francisco!</h2></a>
+
+	<a href="https://www.gps-coordinates.net/"target="_blank"><h2>Find coordinates for different city or address!</h2></a>
+</body>
+</html>
+
+
+
